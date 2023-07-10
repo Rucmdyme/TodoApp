@@ -58,16 +58,16 @@ function TodoBox() {
   return (
     <>
       <h1>Set your goals for the day</h1>
-      {/* <TodoForm onSubmit={addTodo} />
+      <TodoForm onSubmit={addTodo} />
       <SearchBar onSearch={handleSearch} />
       <Todo
         todos={filteredTodos}
         removeTodo={removeTodo}
         editTodo={editTodo}
         changePriority={changePriority}
-      /> */}
+      />
 
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Routes>
           <Route path="/" element={<TodoForm onSubmit={addTodo} />} />
           <Route path="/home" element={<SearchBar onSearch={handleSearch} />} />
@@ -84,7 +84,7 @@ function TodoBox() {
           />
           <Route path="*" element={<h1>Error..</h1>} />s
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </>
   );
 }
