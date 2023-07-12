@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-function TodoForm({ onSubmit }) {
+const TodoForm = ({ onSubmit }) => {
   const [input, setInput] = useState("");
 
   const handleChange = (e) => {
@@ -32,6 +32,6 @@ function TodoForm({ onSubmit }) {
       </button>
     </form>
   );
-}
+};
 
 export default TodoForm;

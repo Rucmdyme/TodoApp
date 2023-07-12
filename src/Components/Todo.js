@@ -1,13 +1,9 @@
 import React, { useState, useParams } from "react";
-// import axios from "axios";
+
 const Todo = ({ todos, removeTodo, editTodo, changePriority }) => {
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
-  // let p = axios.get("https://goweather.herokuapp.com/weather/{Delhi}");
-  // p.then((value) => {
-  //   console.log(value);
-  // });
   const handleEditChange = (e) => {
     setEditText(e.target.value);
   };

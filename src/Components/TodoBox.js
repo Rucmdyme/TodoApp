@@ -1,41 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
 import SearchBar from "./SearchBar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-const savedTodos = () => {
-  const saved = localStorage.getItem("todos");
-  if (saved) return JSON.parse(saved);
-  else return [];
-};
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addTodoAction,
+  changePriorityAction,
+  editTodoAction,
+  removeTodoAction,
+  searchQueryAction,
+} from "./action";
 
-function TodoBox() {
-  const [todos, setTodos] = useState(savedTodos);
-  const [searchQuery, setSearchQuery] = useState("");
+const TodoBox = () => {
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos);
+  const searchQuery = useSelector((state) => state.searchQuery);
 
   useEffect(() => {
+    console.log("todos", todos);
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
   const addTodo = (todo) => {
-    const newTodos = [todo, ...todos];
-    setTodos(newTodos);
+    dispatch(addTodoAction(todo));
   };
 
   const removeTodo = (id) => {
-    const removed = [...todos].filter((todo) => todo.id !== id);
-    setTodos(removed);
+    dispatch(removeTodoAction(id));
   };
 
   const handleSearch = (query) => {
-    setSearchQuery(query);
+    dispatch(searchQueryAction(query));
   };
 
   const editTodo = (updatedTodo) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo
-    );
-    setTodos(updatedTodos);
+    dispatch(editTodoAction(updatedTodo));
   };
 
   const filteredTodos = todos.filter((todo) =>
@@ -43,16 +42,7 @@ function TodoBox() {
   );
 
   const changePriority = (draggedId, droppedId) => {
-    const updatedTodos = [...todos];
-    const draggedIndex = updatedTodos.findIndex((todo) => todo.id == draggedId);
-    const droppedIndex = updatedTodos.findIndex((todo) => todo.id == droppedId);
-    const draggedTodo = updatedTodos[draggedIndex];
-    const droppedTodo = updatedTodos[droppedIndex];
-
-    updatedTodos[draggedIndex] = droppedTodo;
-    updatedTodos[droppedIndex] = draggedTodo;
-
-    setTodos(updatedTodos);
+    dispatch(changePriorityAction(draggedId, droppedId));
   };
 
   return (
@@ -66,27 +56,8 @@ function TodoBox() {
         editTodo={editTodo}
         changePriority={changePriority}
       />
-
-      {/* <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<TodoForm onSubmit={addTodo} />} />
-          <Route path="/home" element={<SearchBar onSearch={handleSearch} />} />
-          <Route
-            path="/todo"
-            element={
-              <Todo
-                todos={filteredTodos}
-                removeTodo={removeTodo}
-                editTodo={editTodo}
-                changePriority={changePriority}
-              />
-            }
-          />
-          <Route path="*" element={<h1>Error..</h1>} />s
-        </Routes>
-      </BrowserRouter> */}
     </>
   );
-}
+};
 
 export default TodoBox;
